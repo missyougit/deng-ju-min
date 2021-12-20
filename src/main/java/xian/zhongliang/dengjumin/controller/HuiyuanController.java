@@ -16,16 +16,29 @@ public class HuiyuanController {
     @Autowired
     private HuiyuanService huiyuanService;
 
+    @GetMapping("/wechat/{openId}")
+    public CommonResponse<HuiyuanResponse> getHuiyuanByOpenId(@PathVariable("openId")String openId, int pageNo, int pageSize){
+
+        return huiyuanService.getHuiyuanByOpenId(openId,pageNo,pageSize);
+    }
+
+    @GetMapping("/wechat/{openId}/search")
+    public CommonResponse<HuiyuanResponse> getHuiyuanByOpenIdAndSearchText(@PathVariable("openId")String openId, String searchText){
+
+        return huiyuanService.getHuiyuanByOpenIdAndSearchText(openId,searchText);
+    }
+
+
     @GetMapping("/{huiyuanid}")
     public CommonResponse<HuiyuanResponse> getHuiyuanById(@PathVariable("huiyuanid")int huiyuanid){
         return huiyuanService.getHuiyuanById(huiyuanid);
     }
 
-    @GetMapping("/by/{yuangongid}")
-    public CommonResponse<HuiyuanResponse> getHuiyuanByYuangongid(@PathVariable("yuangongid")int yuangongid, int pageNo, int pageSize){
-
-        return huiyuanService.getHuiyuanByYuangongid(yuangongid,pageNo,pageSize);
-    }
+//    @GetMapping("/by/{yuangongid}")
+//    public CommonResponse<HuiyuanResponse> getHuiyuanByYuangongid(@PathVariable("yuangongid")int yuangongid, int pageNo, int pageSize){
+//
+//        return huiyuanService.getHuiyuanByYuangongid(yuangongid,pageNo,pageSize);
+//    }
 
     @PostMapping("/addHuiyuan")
     public CommonResponse<HuiyuanResponse> addHuiyuan(@RequestBody Huiyuan huiyuan){

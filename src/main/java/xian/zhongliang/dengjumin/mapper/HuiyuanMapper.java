@@ -18,10 +18,11 @@ public interface HuiyuanMapper {
     @Select("select * from huiyuan where yuangongid=#{yuangongid} ORDER BY entrytime DESC limit #{offset} , #{pageSize}")
     List<Huiyuan> getHuiyuanByYuangongid(int yuangongid, int offset, int pageSize);
 
-    @Insert("insert into huiyuan values (#{id},#{name},#{gender},#{age},#{birthday},#{phone},#{yuangongid},#{entrytime},#{remarks},#{zhiye})" +
+    @Insert("insert into huiyuan values (#{id},#{name},#{gender},#{age},#{birthday},#{phone},#{yuangongid}," +
+            "#{entrytime},#{remarks},#{zhiye},#{openId},#{address})" +
             " ON DUPLICATE KEY UPDATE " +
             "name=#{name},gender=#{gender},age=#{age},birthday=#{birthday},phone=#{phone}," +
-            "yuangongid=#{yuangongid},entrytime=#{entrytime},remarks=#{remarks},zhiye=#{zhiye}")
+            "yuangongid=#{yuangongid},entrytime=#{entrytime},remarks=#{remarks},zhiye=#{zhiye},openId=#{openId},address=#{address}")
     int addHuiyuan(Huiyuan huiyuan);
 
     //获取某员工的会员总数
@@ -32,5 +33,13 @@ public interface HuiyuanMapper {
             "(name like '%${searchText}%' or phone like '%${searchText}%' or zhiye like '%${searchText}%')")
     List<Huiyuan> getHuiyuanBySearchText(@Param("yuangongid") int yuangongid, @Param("searchText") String searchText);
 
+    @Select("select * from huiyuan where openId=#{openId} ORDER BY entrytime DESC limit #{offset} , #{pageSize}")
+    List<Huiyuan> getHuiyuanByOpenId(String openId, int offset, int pageSize);
 
+    @Select("select COUNT(id) from huiyuan where openId=#{openId}")
+    int getHuiyuanTotalByOpenId(String openId);
+
+    @Select("select * from huiyuan where openId=#{openId} and " +
+            "(name like '%${searchText}%' or phone like '%${searchText}%' or zhiye like '%${searchText}%')")
+    List<Huiyuan> getHuiyuanByOpenIdAndSearchText(String openId, String searchText);
 }

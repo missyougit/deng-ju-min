@@ -15,6 +15,22 @@ public class YuangongController {
     @Autowired
     private YuangongService yuangongService;
 
+
+    @GetMapping("/wechatLogon/by/{openId}")
+    public CommonResponse<Yuangong> wechatLogon(@PathVariable("openId")String openId){
+
+        return yuangongService.wechatLogonByOpenId(openId);
+
+    }
+
+
+    @PostMapping("/wechat/logon")
+    public CommonResponse<Yuangong> wechatLogon(@RequestBody Yuangong yuangong){
+
+        return yuangongService.wechatLogon(yuangong);
+    }
+
+
     @GetMapping("/{id}")
     public CommonResponse<Yuangong> getYuangongById(@PathVariable("id")int id){
         return yuangongService.getYuangongById(id);

@@ -9,18 +9,15 @@ import xian.zhongliang.dengjumin.model.Huiyuan;
 import xian.zhongliang.dengjumin.model.HuiyuanResponse;
 import xian.zhongliang.dengjumin.model.Yuangong;
 import xian.zhongliang.dengjumin.service.HuiyuanService;
+import xian.zhongliang.dengjumin.utils.Constant;
 import xian.zhongliang.dengjumin.utils.DateUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
 public class HuiyuanServiceImpl implements HuiyuanService {
-
-    private static String DATE_FORMATTER = "yyyy-MM-dd HH:mm";
-    private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_FORMATTER);
 
     @Resource
     private HuiyuanMapper huiyuanMapper;
@@ -55,7 +52,7 @@ public class HuiyuanServiceImpl implements HuiyuanService {
 
         int offset = (pageNo - 1) * pageSize;
         List<Huiyuan> huiyuanList = huiyuanMapper.getHuiyuanByYuangongid(yuangongid,offset,pageSize);
-        if (huiyuanList == null){
+        if (huiyuanList.isEmpty()){
             return new CommonResponse<>(400,"您还没有会员",null);
         }
         Yuangong yuangong = yuangongMapper.getYuangongById(yuangongid);
@@ -86,7 +83,7 @@ public class HuiyuanServiceImpl implements HuiyuanService {
         int age = DateUtils.getAge(huiyuan.getBirthday());
         huiyuan.setAge(age);
         LocalDateTime currentTime = LocalDateTime.now();
-        String entrytime = currentTime.format(dateTimeFormatter);
+        String entrytime = currentTime.format(Constant.DATE_TIME_FORMATTER);
         huiyuan.setEntrytime(entrytime);
         int i = huiyuanMapper.addHuiyuan(huiyuan);
         if (i < 1){
@@ -119,6 +116,46 @@ public class HuiyuanServiceImpl implements HuiyuanService {
         huiyuanResponse.setHuiyuanList(huiyuanList);
 
         return new CommonResponse<>(200,"Success",huiyuanResponse);
+    }
+
+    @Override
+    public CommonResponse<HuiyuanResponse> getHuiyuanByOpenId(String openId, int pageNo, int pageSize) {
+
+        int offset = (pageNo - 1) * pageSize;
+        List<Huiyuan> huiyuanList = huiyuanMapper.getHuiyuanByOpenId(openId,offset,pageSize);
+        if (huiyuanList.isEmpty()){
+            return new CommonResponse<>(400,"您还没有会员",null);
+        }
+        Yuangong yuangong = yuangongMapper.getYuangongByOpenId(openId);
+        for (Huiyuan huiyuan : huiyuanList) {
+            huiyuan.setYuangong(yuangong);
+        }
+        HuiyuanResponse huiyuanResponse = new HuiyuanResponse();
+        huiyuanResponse.setHuiyuanList(huiyuanList);
+        int huiyuanTotal = huiyuanMapper.getHuiyuanTotalByOpenId(openId);
+        huiyuanResponse.setTotal(huiyuanTotal);
+        Integer pageCount;
+        if (huiyuanTotal % pageSize == 0){
+            pageCount = huiyuanTotal / pageSize;
+        }else {
+            pageCount = (int)Math.ceil((double)huiyuanTotal / (double)pageSize);
+        }
+        huiyuanResponse.setPageCount(pageCount);
+        return new CommonResponse<>(200,"Success",huiyuanResponse);
+
+    }
+
+    @Override
+    public CommonResponse<HuiyuanResponse> getHuiyuanByOpenIdAndSearchText(String openId, String searchText) {
+
+        List<Huiyuan> huiyuanList = huiyuanMapper.getHuiyuanByOpenIdAndSearchText(openId,searchText);
+        if (huiyuanList.isEmpty()){
+            return new CommonResponse<>(400,"查无此人",null);
+        }
+        HuiyuanResponse huiyuanResponse = new HuiyuanResponse();
+        huiyuanResponse.setHuiyuanList(huiyuanList);
+        return new CommonResponse<>(200,"Success",huiyuanResponse);
+
     }
 
 

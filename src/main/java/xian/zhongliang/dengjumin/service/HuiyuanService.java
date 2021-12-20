@@ -16,4 +16,8 @@ public interface HuiyuanService {
     CommonResponse<HuiyuanResponse> getHuiyuanTotalByYuangongid(int yuangongid);
 
     CommonResponse<HuiyuanResponse> getHuiyuanBySearchText(int yuangongid, String searchText);
+
+    CommonResponse<HuiyuanResponse> getHuiyuanByOpenId(String openId, int pageNo, int pageSize);
+
+    CommonResponse<HuiyuanResponse> getHuiyuanByOpenIdAndSearchText(String openId, String searchText);
 }

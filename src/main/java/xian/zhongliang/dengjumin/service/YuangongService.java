@@ -12,4 +12,7 @@ public interface YuangongService {
 
     CommonResponse<Yuangong> register(Yuangong yuangong);
 
+    CommonResponse<Yuangong> wechatLogon(Yuangong yuangong);
+
+    CommonResponse<Yuangong> wechatLogonByOpenId(String openId);
 }

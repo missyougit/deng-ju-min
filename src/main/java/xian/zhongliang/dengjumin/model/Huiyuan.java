@@ -5,7 +5,7 @@ public class Huiyuan {
 
     private int id;
     private String name;
-    private String gender;
+    private int gender;
     private int age;
     private String birthday;
     private String phone;
@@ -14,6 +14,24 @@ public class Huiyuan {
     private Yuangong yuangong;
     private String remarks;
     private String zhiye;
+    private String openId;
+    private String address;
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public String getZhiye() {
         return zhiye;
@@ -39,11 +57,11 @@ public class Huiyuan {
         this.name = name;
     }
 
-    public String getGender() {
+    public int getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(int gender) {
         this.gender = gender;
     }
 
