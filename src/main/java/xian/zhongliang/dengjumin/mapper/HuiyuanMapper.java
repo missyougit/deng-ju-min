@@ -21,8 +21,8 @@ public interface HuiyuanMapper {
     @Insert("insert into huiyuan values (#{id},#{name},#{gender},#{age},#{birthday},#{phone},#{yuangongid}," +
             "#{entrytime},#{remarks},#{zhiye},#{openId},#{address})" +
             " ON DUPLICATE KEY UPDATE " +
-            "name=#{name},gender=#{gender},age=#{age},birthday=#{birthday},phone=#{phone}," +
-            "yuangongid=#{yuangongid},entrytime=#{entrytime},remarks=#{remarks},zhiye=#{zhiye},openId=#{openId},address=#{address}")
+            "name=#{name},age=#{age},birthday=#{birthday},phone=#{phone}," +
+            "remarks=#{remarks},zhiye=#{zhiye},address=#{address}")
     int addHuiyuan(Huiyuan huiyuan);
 
     //获取某员工的会员总数
